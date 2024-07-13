@@ -22,9 +22,12 @@ const Chat = () => {
     setName(name);
     setRoom(room);
 
-    console.log(socket);
+    socket.emit("join", { name, room }, () => {});
 
-    return () => {};
+    return () => {
+      socket.emit("disconnect");
+      socket.off();
+    };
   }, [search]);
 
   return <div>Chat</div>;
