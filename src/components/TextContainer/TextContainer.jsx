@@ -35,7 +35,7 @@ const TextContainer = ({ users }) => {
               {users.map(({ name }) => (
                 <div key={name} className="activeItem">
                   {name}
-                  <img src={onlineIcon} alt="online image" />
+                  <img src={onlineIcon} alt="online" />
                 </div>
               ))}
             </h2>
