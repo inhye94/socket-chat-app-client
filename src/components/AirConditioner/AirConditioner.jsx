@@ -5,7 +5,7 @@ import queryString from "query-string";
 
 import "./AirConditioner.css";
 
-const END_POINT = process.env.REACT_APP_SOCKET_LOCAL_URL;
+const END_POINT = process.env.REACT_APP_SOCKET_SERVER_URL;
 const socket = io(END_POINT);
 
 const AirConditioner = () => {

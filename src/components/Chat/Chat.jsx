@@ -11,7 +11,7 @@ import TextContainer from "../TextContainer/TextContainer";
 import "./Chat.css";
 
 let socket;
-const END_POINT = process.env.REACT_APP_SOCKET_LOCAL_URL;
+const END_POINT = process.env.REACT_APP_SOCKET_SERVER_URL;
 
 const Chat = () => {
   const { search } = useLocation();
