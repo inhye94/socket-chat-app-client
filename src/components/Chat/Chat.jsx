@@ -11,8 +11,7 @@ import TextContainer from "../TextContainer/TextContainer";
 import "./Chat.css";
 
 let socket;
-// const END_POINT = "https://personal-chat-app.fly.dev/";
-const END_POINT = "http://localhost:8080/";
+const END_POINT = process.env.REACT_APP_SOCKET_LOCAL_URL;
 
 const Chat = () => {
   const { search } = useLocation();

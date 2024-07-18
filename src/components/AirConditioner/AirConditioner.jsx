@@ -5,8 +5,8 @@ import queryString from "query-string";
 
 import "./AirConditioner.css";
 
-const END_POINT = "http://localhost:8080/";
-let socket = io(END_POINT);
+const END_POINT = process.env.REACT_APP_SOCKET_LOCAL_URL;
+const socket = io(END_POINT);
 
 const AirConditioner = () => {
   const { search } = useLocation();
