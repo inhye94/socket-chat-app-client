@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { io } from "socket.io-client";
 import queryString from "query-string";
 
 import "./AirConditioner.css";
-
-const END_POINT = process.env.REACT_APP_SOCKET_SERVER_URL;
-const socket = io(END_POINT);
+import { useSocket } from "../../context/SocketContext";
 
 const AirConditioner = () => {
+  const socket = useSocket();
+
   const { search } = useLocation();
   const { name } = queryString.parse(search);
 
@@ -35,14 +34,14 @@ const AirConditioner = () => {
         console.log("JoinTemp event off");
       });
     };
-  }, [name]);
+  }, [name, socket]);
 
   useEffect(() => {
     socket.on("tempChange", ({ username, temp }) => {
       setTemp(temp);
       setUsername(username);
     });
-  }, [temp]);
+  }, [temp, socket]);
 
   return (
     <section>

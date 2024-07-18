@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
-import io from "socket.io-client";
+import { useSocket } from "../../context/SocketContext";
 
 import InfoBar from "../InfoBar/InfoBar";
 import Input from "../Input/Input";
@@ -10,10 +10,8 @@ import TextContainer from "../TextContainer/TextContainer";
 
 import "./Chat.css";
 
-let socket;
-const END_POINT = process.env.REACT_APP_SOCKET_SERVER_URL;
-
 const Chat = () => {
+  const socket = useSocket();
   const { search } = useLocation();
 
   const [name, setName] = useState("");
@@ -25,8 +23,6 @@ const Chat = () => {
   useEffect(() => {
     const { name, room } = queryString.parse(search);
 
-    socket = io(END_POINT);
-
     setName(name);
     setRoom(room);
 
@@ -37,7 +33,7 @@ const Chat = () => {
         console.log("Join event off");
       });
     };
-  }, [search]);
+  }, [search, socket]);
 
   // NOTE: 메세지 받으면 메세지 배열 업데이트
   useEffect(() => {
@@ -48,7 +44,7 @@ const Chat = () => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [messages]);
+  }, [messages, socket]);
 
   const sendMessage = (event) => {
     event.preventDefault();
