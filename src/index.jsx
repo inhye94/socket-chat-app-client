@@ -4,10 +4,10 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import App from "./App";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
-import Join from "./components/Join/Join";
-import Chat from "./components/Chat/Chat";
+import Chat from "./pages/Chat/Chat";
+import Join from "./pages/Join/Join";
 import RedirectPage from "./pages/RedirectPage/RedirectPage";
-import AirConditioner from "./components/AirConditioner/AirConditioner";
+import AirConditioner from "./pages/AirConditioner/AirConditioner";
 
 const router = createBrowserRouter([
   {

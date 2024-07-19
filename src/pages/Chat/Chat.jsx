@@ -3,10 +3,10 @@ import queryString from "query-string";
 import { useLocation } from "react-router-dom";
 import { useSocket } from "../../context/SocketContext";
 
-import InfoBar from "../InfoBar/InfoBar";
-import Input from "../Input/Input";
-import Messages from "../Messages/Messages";
-import TextContainer from "../TextContainer/TextContainer";
+import InfoBar from "./components/InfoBar/InfoBar";
+import Input from "./components/Input/Input";
+import Messages from "./components/Messages/Messages";
+import TextContainer from "./components/TextContainer/TextContainer";
 
 import "./Chat.css";
 

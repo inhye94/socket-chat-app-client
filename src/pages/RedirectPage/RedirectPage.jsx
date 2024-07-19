@@ -6,6 +6,8 @@ const RedirectPage = ({ children }) => {
   const { search } = useLocation();
   const { name, room } = queryString.parse(search);
 
+  console.log(queryString.parse(search));
+
   const noQueryString = !name || !room;
 
   // NOTE: queryString이 없는 경우, 홈으로 redirect
