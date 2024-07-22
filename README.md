@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+## 개요 및 제작 목표
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- 개요: React와 Node.js를 사용하여 실시간 채팅 사이트를 개발. 주요 기능으로는 채팅방 생성, 실시간 채팅 등이 포함됨
+- 역할 및 책임: 개인 프로젝트로 클라이언트와 서버를 구축
+- 제작 목표: 실무(WWWOW)에서 구현하지 못한 웹 소켓 기능을 구현
 
-## Available Scripts
+## 사용스택
 
-In the project directory, you can run:
+- React: 패키지 관리 및 반복되는 UI를 효율적으로 구축하고자 사용했습니다.
+- Node.js: 동일한 언어(Javascript)로 서버를 구현할 수 있어서 사용했습니다.
+- Express: 서버를 간편하게 설정하고, 많은 튜토리얼과 문서가 제공되어 신속히 문제를 해결하기 위해 사용했습니다.
+- socket.io: 자동 재연결 및 크로스 브라우징 호환성을 제공하여 해당 라이브러리를 사용했습니다.
 
-### `npm start`
+## 폴더 구조
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- Page group
+  - 웹 사이트를 구성하는 Page 그룹
+  - component가 중첩되어 있음
+- Feature group
+  - 특정 목적의 기능을 가진 Feature 그룹
+  - context, hook, api
+- Assets group
+  - 페이지에서 사용하는 Assets 그룹
+  - image, font ...
+- Shared group
+  - 공통적으로 사용되는 함수 및 스타일 그룹
+  - util 함수, 공통 UI ...
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+<img width="3336" alt="chat-app_after" src="https://github.com/user-attachments/assets/b70fe129-af61-401c-b32a-3c803b81b2a2">
 
-### `npm test`
+### Page group
+<img width="2496" alt="chat-app_after_page" src="https://github.com/user-attachments/assets/d68c3f59-46d3-4d14-a9f3-47800aa9c0ab">
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Feature group
+<img width="2496" alt="chat-app_after_feature" src="https://github.com/user-attachments/assets/41bcfa9d-55eb-458f-8382-f302cb176b0d">
 
-### `npm run build`
+### Assets group
+<img width="2496" alt="chat-app_after_asset" src="https://github.com/user-attachments/assets/00b38245-7970-486e-9df9-d145c3e85301">
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Shared group
+<img width="2496" alt="chat-app_after_shared" src="https://github.com/user-attachments/assets/3e150696-f701-4e76-8342-7c0c7d5c7f24">
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 프로젝트 설계
 
-### `npm run eject`
+### Join
+<img width="3520" alt="chat-app_architecture_join" src="https://github.com/user-attachments/assets/80673329-fa7c-400c-ba11-6bbdc9303812">
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Redirect
+<img width="3520" alt="chat-app_architecture_redirect" src="https://github.com/user-attachments/assets/c68b38fb-9894-4f55-832c-80c24a53e0c3">
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Chat
+<img width="5424" alt="chat-app_architecture_chat" src="https://github.com/user-attachments/assets/8ed60b5c-0624-49d1-b570-fa8cdef8ed8f">
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### AirConditioner
+<img width="4544" alt="chat-app_architecture_air" src="https://github.com/user-attachments/assets/20095b24-8531-4b9e-95a6-b806e623ff8c">
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 문제 해결
 
-## Learn More
+1. concurrently로 서버와 클라이언트를 하나로 묶어서 배포하려 했으나 build 에러 발생
+- 서버와 클라이언트를 함께 배포할 수 없다는 것을 확인하고, 서버는 fly.io에 클라이언트는 netlify에 배포
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2. 서버 배포하고 나서 502 에러 발생
+- 서버 과부하 및 네트워크 문제가 아님을 파악하고, 서버 설정에서 달리 설정된 port 값을 확인한 후 동일한 값으로 수정
 
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+3. 배포 후에 새로고침 또는 링크 직접 접근 에러
+- client-side routing을 지원하기 위해 public 폴더에 \_redirect 설정 추가
