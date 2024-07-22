@@ -30,8 +30,8 @@ const AirConditioner = () => {
     });
 
     return () => {
-      socket.off("joinTemp", () => {
-        console.log("JoinTemp event off");
+      socket.off("joinAir", () => {
+        console.log("joinAir event off");
       });
     };
   }, [name, socket]);
