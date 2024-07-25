@@ -3,9 +3,14 @@ import { Link } from "react-router-dom";
 
 import "./Join.css";
 
+const ROOM_SPECIFIC_AIR = "air";
+const ROOM_COUNT = 5;
+const roomArray = Array.from({ length: ROOM_COUNT }, (_, i) => `room${i + 1}`);
+roomArray.unshift(ROOM_SPECIFIC_AIR);
+
 const Join = () => {
   const [name, setName] = useState("");
-  const [room, setRoom] = useState("");
+  const [room, setRoom] = useState(roomArray[0]);
 
   return (
     <div className="joinOuterContainer">
@@ -22,12 +27,16 @@ const Join = () => {
           />
         </div>
         <div>
-          <input
-            placeholder="Room"
+          <select
             className="joinInput mt-20"
-            type="text"
             onChange={(event) => setRoom(event.currentTarget.value)}
-          />
+          >
+            {roomArray.map((v) => (
+              <option key={v} value={v}>
+                {v}
+              </option>
+            ))}
+          </select>
         </div>
 
         <Link
