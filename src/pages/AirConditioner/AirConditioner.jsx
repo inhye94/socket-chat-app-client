@@ -34,6 +34,10 @@ const AirConditioner = () => {
     socket.emit("minusTemp", { name, room: "air" });
   };
 
+  const toggleMute = () => {
+    setMute((prev) => !prev);
+  };
+
   useEffect(() => {
     if (socket) {
       socket.emit("joinAir", { name, room: "air" }, () => {});
@@ -85,6 +89,7 @@ const AirConditioner = () => {
 
           <div className="screen-tag">
             <span className="tag">냉방</span>
+            {mute && <strong className="tag tag-black">무풍</strong>}
           </div>
         </section>
 
@@ -111,7 +116,9 @@ const AirConditioner = () => {
               <FaPowerOff />
             </ControlButton>
 
-            <ControlButton small={true}>무풍</ControlButton>
+            <ControlButton small={true} clickEventHandler={toggleMute}>
+              무풍
+            </ControlButton>
           </div>
 
           <div className="button-box">
