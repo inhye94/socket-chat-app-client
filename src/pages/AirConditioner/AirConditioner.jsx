@@ -3,10 +3,10 @@ import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 
 import "./AirConditioner.css";
-import { useSocket } from "../../context/SocketContext";
+import { useSocketContext } from "../../context/SocketContext";
 
 const AirConditioner = () => {
-  const socket = useSocket();
+  const { socket } = useSocketContext();
 
   const { search } = useLocation();
   const { name } = queryString.parse(search);
@@ -23,24 +23,28 @@ const AirConditioner = () => {
   };
 
   useEffect(() => {
-    socket.emit("joinAir", { name, room: "air" }, () => {});
+    if (socket) {
+      socket.emit("joinAir", { name, room: "air" }, () => {});
 
-    socket.on("initTemp", (temp) => {
-      setTemp(temp);
-    });
-
-    return () => {
-      socket.off("joinAir", () => {
-        console.log("joinAir event off");
+      socket.on("initTemp", (temp) => {
+        setTemp(temp);
       });
-    };
+
+      return () => {
+        socket.off("joinAir", () => {
+          console.log("joinAir event off");
+        });
+      };
+    }
   }, [name, socket]);
 
   useEffect(() => {
-    socket.on("tempChange", ({ username, temp }) => {
-      setTemp(temp);
-      setUsername(username);
-    });
+    if (socket) {
+      socket.on("tempChange", ({ username, temp }) => {
+        setTemp(temp);
+        setUsername(username);
+      });
+    }
   }, [temp, socket]);
 
   return (

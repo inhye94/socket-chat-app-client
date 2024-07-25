@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import queryString from "query-string";
 import { useLocation } from "react-router-dom";
-import { useSocket } from "../../context/SocketContext";
+import { useSocketContext } from "../../context/SocketContext";
 
 import InfoBar from "./components/InfoBar/InfoBar";
 import Input from "./components/Input/Input";
@@ -11,7 +11,7 @@ import TextContainer from "./components/TextContainer/TextContainer";
 import "./Chat.css";
 
 const Chat = () => {
-  const socket = useSocket();
+  const { socket } = useSocketContext();
   const { search } = useLocation();
 
   const [name, setName] = useState("");
@@ -26,24 +26,28 @@ const Chat = () => {
     setName(name);
     setRoom(room);
 
-    socket.emit("join", { name, room }, () => {});
+    if (socket) {
+      socket.emit("join", { name, room }, () => {});
 
-    return () => {
-      socket.off("join", () => {
-        console.log("Join event off");
-      });
-    };
+      return () => {
+        socket.off("join", () => {
+          console.log("Join event off");
+        });
+      };
+    }
   }, [search, socket]);
 
   // NOTE: 메세지 받으면 메세지 배열 업데이트
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages([...messages, message]);
-    });
+    if (socket) {
+      socket.on("message", (message) => {
+        setMessages([...messages, message]);
+      });
 
-    socket.on("roomData", ({ users }) => {
-      setUsers(users);
-    });
+      socket.on("roomData", ({ users }) => {
+        setUsers(users);
+      });
+    }
   }, [messages, socket]);
 
   const sendMessage = (event) => {

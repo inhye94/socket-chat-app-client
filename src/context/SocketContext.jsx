@@ -22,10 +22,12 @@ export const SocketProvider = ({ children }) => {
   }, []);
 
   return (
-    <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>
+    <SocketContext.Provider value={{ socket }}>
+      {children}
+    </SocketContext.Provider>
   );
 };
 
-export const useSocket = () => {
+export const useSocketContext = () => {
   return useContext(SocketContext);
 };
