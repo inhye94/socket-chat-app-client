@@ -1,0 +1,141 @@
+.visually-hidden {
+  position: absolute;
+  z-index: -999;
+  display: block !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.outerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: #aaa;
+}
+
+.innerWrapper {
+  max-width: 300px;
+  max-height: 100vh;
+  padding: 32px;
+  padding-bottom: 50px;
+  border-radius: 24px;
+  background-color: #fff;
+}
+
+.screen {
+  padding: 20px;
+  background-color: paleturquoise;
+}
+
+.screen > * {
+  width: 100%;
+  text-align: center;
+}
+
+.temp {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.temp-unit {
+  margin-left: 4px;
+  font-size: 16px;
+}
+
+.screen-strength {
+  font-size: 32px;
+}
+
+.windmill {
+  animation-name: rotate;
+  animation-duration: 1000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.strength-strong {
+  animation-duration: 700ms;
+}
+
+.strength-weak {
+  animation-duration: 2000ms;
+}
+
+.screen-owner {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.screen-tag {
+  display: inline-flex;
+  flex-wrap: wrap;
+  row-gap: 4px;
+  column-gap: 4px;
+  justify-content: center;
+}
+
+.tag {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid black;
+}
+
+.control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: lightgrey;
+}
+
+.tag-black {
+  background-color: black;
+  color: white;
+}
+
+.button-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-box .text {
+  margin: 8px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.control {
+  padding: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 4px;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.2rem;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
