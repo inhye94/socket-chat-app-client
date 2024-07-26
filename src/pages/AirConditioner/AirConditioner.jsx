@@ -4,14 +4,10 @@ import queryString from "query-string";
 import { useSocketContext } from "../../context/SocketContext";
 import ControlButton from "./components/ControlButton/ControlButton";
 
-import { TbTemperatureCelsius } from "react-icons/tb";
-import { TbWindmill } from "react-icons/tb";
-import { LuPlus } from "react-icons/lu";
-import { LuMinus } from "react-icons/lu";
-import { FaPowerOff } from "react-icons/fa6";
-import { IoChevronUpOutline } from "react-icons/io5";
-import { IoChevronDownOutline } from "react-icons/io5";
-import { FaReact } from "react-icons/fa6";
+import { TbTemperatureCelsius, TbWindmill } from "react-icons/tb";
+import { LuPlus, LuMinus } from "react-icons/lu";
+import { FaPowerOff, FaReact } from "react-icons/fa6";
+import { IoChevronUpOutline, IoChevronDownOutline } from "react-icons/io5";
 
 import beepSound from "../../assets/sound/beep.mov";
 
@@ -24,8 +20,9 @@ const AirConditioner = () => {
 
   const { search } = useLocation();
   const { name } = queryString.parse(search);
+  const room = "air";
 
-  const [temp, setTemp] = useState(0);
+  const [temp, setTemp] = useState(20);
   const [username, setUsername] = useState("");
 
   const [mute, setMute] = useState(false);
@@ -34,35 +31,80 @@ const AirConditioner = () => {
   const beepAudio = useRef();
 
   const plusTemp = () => {
-    socket.emit("plusTemp", { name, room: "air" });
+    if (!mute) playAudio(beepAudio.current);
+
+    if (temp >= 30) return;
+
+    socket.emit("changeTemp", { name, room, temp: temp + 1 });
+    setTemp(temp + 1);
   };
 
   const minusTemp = () => {
-    socket.emit("minusTemp", { name, room: "air" });
+    if (!mute) playAudio(beepAudio.current);
+
+    if (temp <= 0) return;
+
+    socket.emit("changeTemp", { name, room, temp: temp - 1 });
+    setTemp(temp - 1);
   };
 
   const toggleMute = () => {
-    setMute((prev) => !prev);
+    if (!mute) playAudio(beepAudio.current);
+
+    socket.emit("toggleMute", { name, room, mute: !mute });
+    setMute(!mute);
   };
 
   const turnUp = () => {
+    if (!mute) playAudio(beepAudio.current);
+
     if (strength >= 2) return;
 
+    socket.emit("changeStrength", { name, room, strength: strength + 1 });
     setStrength(strength + 1);
   };
 
   const turnDown = () => {
+    if (!mute) playAudio(beepAudio.current);
+
     if (strength <= 0) return;
 
+    socket.emit("changeStrength", { name, room, strength: strength - 1 });
     setStrength(strength - 1);
   };
 
+  // NOTE: 초기화
   useEffect(() => {
     if (socket) {
-      socket.emit("joinAir", { name, room: "air" }, () => {});
+      socket.emit("joinAir", { name, room }, () => {});
 
-      socket.on("initTemp", (temp) => {
-        setTemp(temp);
+      socket.on("initTemp", setTemp);
+      socket.on("initMute", setMute);
+      socket.on("initStrength", setStrength);
+      socket.on("initUsername", setUsername);
+    }
+  }, [name, socket]);
+
+  // NOTE: 다른 유저의 변경값 수신
+  useEffect(() => {
+    if (socket) {
+      const broadcastHandlers = {
+        broadcastTemp: ({ username, temp }) => {
+          setTemp(temp);
+          setUsername(username);
+        },
+        broadcastMute: ({ username, mute }) => {
+          setMute(mute);
+          setUsername(username);
+        },
+        broadcastStrength: ({ username, strength }) => {
+          setStrength(strength);
+          setUsername(username);
+        },
+      };
+
+      Object.keys(broadcastHandlers).forEach((event) => {
+        socket.on(event, broadcastHandlers[event]);
       });
 
       return () => {
@@ -71,22 +113,7 @@ const AirConditioner = () => {
         });
       };
     }
-  }, [name, socket]);
-
-  useEffect(() => {
-    if (socket) {
-      socket.on("tempChange", ({ username, temp }) => {
-        setTemp(temp);
-        setUsername(username);
-      });
-    }
-  }, [temp, socket]);
-
-  useEffect(() => {
-    if (mute) return;
-
-    playAudio(beepAudio.current);
-  }, [temp, strength, mute]);
+  }, [socket]);
 
   return (
     <section className="outerWrapper">
@@ -168,7 +195,7 @@ const AirConditioner = () => {
         </div>
       </div>
 
-      <audio ref={beepAudio} src={beepSound} paused />
+      <audio ref={beepAudio} src={beepSound} />
     </section>
   );
 };
