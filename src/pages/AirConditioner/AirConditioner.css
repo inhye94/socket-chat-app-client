@@ -57,16 +57,19 @@
 
 .windmill {
   animation-name: rotate;
-  animation-duration: 1000ms;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
 }
 
-.strength-strong {
+.strong {
   animation-duration: 700ms;
 }
 
-.strength-weak {
+.normal {
+  animation-duration: 1000ms;
+}
+
+.weak {
   animation-duration: 2000ms;
 }
 

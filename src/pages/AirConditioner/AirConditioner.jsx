@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import queryString from "query-string";
 import { useSocketContext } from "../../context/SocketContext";
+import ControlButton from "./components/ControlButton/ControlButton";
 
 import { TbTemperatureCelsius } from "react-icons/tb";
 import { TbWindmill } from "react-icons/tb";
@@ -12,8 +13,11 @@ import { IoChevronUpOutline } from "react-icons/io5";
 import { IoChevronDownOutline } from "react-icons/io5";
 import { FaReact } from "react-icons/fa6";
 
+import beepSound from "../../assets/sound/beep.mov";
+
 import "./AirConditioner.css";
-import ControlButton from "./components/ControlButton/ControlButton";
+
+const WIND_STRENGTH_ARR = ["weak", "normal", "strong"];
 
 const AirConditioner = () => {
   const { socket } = useSocketContext();
@@ -25,6 +29,9 @@ const AirConditioner = () => {
   const [username, setUsername] = useState("");
 
   const [mute, setMute] = useState(false);
+  const [strength, setStrength] = useState(1);
+
+  const beepAudio = useRef();
 
   const plusTemp = () => {
     socket.emit("plusTemp", { name, room: "air" });
@@ -36,6 +43,18 @@ const AirConditioner = () => {
 
   const toggleMute = () => {
     setMute((prev) => !prev);
+  };
+
+  const turnUp = () => {
+    if (strength >= 2) return;
+
+    setStrength(strength + 1);
+  };
+
+  const turnDown = () => {
+    if (strength <= 0) return;
+
+    setStrength(strength - 1);
   };
 
   useEffect(() => {
@@ -63,6 +82,12 @@ const AirConditioner = () => {
     }
   }, [temp, socket]);
 
+  useEffect(() => {
+    if (mute) return;
+
+    playAudio(beepAudio.current);
+  }, [temp, strength, mute]);
+
   return (
     <section className="outerWrapper">
       <h2>시원한 에어컨~!</h2>
@@ -75,8 +100,11 @@ const AirConditioner = () => {
           </div>
 
           <div className="screen-strength">
-            <p className="visually-hidden">바람세기:</p>
-            <TbWindmill className="windmill" />
+            <p className="visually-hidden">
+              바람세기: {WIND_STRENGTH_ARR[strength]}
+            </p>
+            <TbWindmill className={`windmill ${WIND_STRENGTH_ARR[strength]}`} />
+            {".".repeat(strength + 1)}
           </div>
 
           <hr />
@@ -124,11 +152,11 @@ const AirConditioner = () => {
           <div className="button-box">
             <p className="text second">바람</p>
 
-            <ControlButton order="first">
+            <ControlButton order="first" clickEventHandler={turnUp}>
               <IoChevronUpOutline />
             </ControlButton>
 
-            <ControlButton order="third">
+            <ControlButton order="third" clickEventHandler={turnDown}>
               <IoChevronDownOutline />
             </ControlButton>
           </div>
@@ -139,8 +167,15 @@ const AirConditioner = () => {
           REACT
         </div>
       </div>
+
+      <audio ref={beepAudio} src={beepSound} paused />
     </section>
   );
 };
 
 export default AirConditioner;
+
+function playAudio(audio) {
+  audio.currentTime = 0;
+  audio.play();
+}
