@@ -1,5 +1,3 @@
-[📎 Site Link](https://personal-chat-application.netlify.app/)
-
 <img width="1680" alt="스크린샷 2024-07-23 오후 4 19 35" src="https://github.com/user-attachments/assets/1e29d2a7-953f-4b17-86ab-61d067f73297">
 
 ## 개요 및 제작 목표
@@ -37,39 +35,49 @@
 <img width="3336" alt="chat-app_after" src="https://github.com/user-attachments/assets/b70fe129-af61-401c-b32a-3c803b81b2a2">
 
 ### Page group
+
 <img width="2496" alt="chat-app_after_page" src="https://github.com/user-attachments/assets/d68c3f59-46d3-4d14-a9f3-47800aa9c0ab">
 
 ### Feature group
+
 <img width="2496" alt="chat-app_after_feature" src="https://github.com/user-attachments/assets/41bcfa9d-55eb-458f-8382-f302cb176b0d">
 
 ### Assets group
+
 <img width="2496" alt="chat-app_after_asset" src="https://github.com/user-attachments/assets/00b38245-7970-486e-9df9-d145c3e85301">
 
 ### Shared group
-<img width="2496" alt="chat-app_after_shared" src="https://github.com/user-attachments/assets/3e150696-f701-4e76-8342-7c0c7d5c7f24">
 
+<img width="2496" alt="chat-app_after_shared" src="https://github.com/user-attachments/assets/3e150696-f701-4e76-8342-7c0c7d5c7f24">
 
 ## 프로젝트 설계
 
 ### Join
+
 <img width="3520" alt="chat-app_architecture_join" src="https://github.com/user-attachments/assets/80673329-fa7c-400c-ba11-6bbdc9303812">
 
 ### Redirect
+
 <img width="3520" alt="chat-app_architecture_redirect" src="https://github.com/user-attachments/assets/c68b38fb-9894-4f55-832c-80c24a53e0c3">
 
 ### Chat
+
 <img width="5424" alt="chat-app_architecture_chat" src="https://github.com/user-attachments/assets/8ed60b5c-0624-49d1-b570-fa8cdef8ed8f">
 
 ### AirConditioner
+
 <img width="4544" alt="chat-app_architecture_air" src="https://github.com/user-attachments/assets/20095b24-8531-4b9e-95a6-b806e623ff8c">
 
 ## 문제 해결
 
 1. concurrently로 서버와 클라이언트를 하나로 묶어서 배포하려 했으나 build 에러 발생
+
 - 서버와 클라이언트를 함께 배포할 수 없다는 것을 확인하고, 서버는 fly.io에 클라이언트는 netlify에 배포
 
 2. 서버 배포하고 나서 502 에러 발생
+
 - 서버 과부하 및 네트워크 문제가 아님을 파악하고, 서버 설정에서 달리 설정된 port 값을 확인한 후 동일한 값으로 수정
 
 3. 배포 후에 새로고침 또는 링크 직접 접근 에러
+
 - client-side routing을 지원하기 위해 public 폴더에 \_redirect 설정 추가
