@@ -1,5 +1,8 @@
 <img width="1680" alt="스크린샷 2024-07-23 오후 4 19 35" src="https://github.com/user-attachments/assets/1e29d2a7-953f-4b17-86ab-61d067f73297">
 
+- 깃허브: https://github.com/inhye94/socket-chat-app-client
+- 배포링크: https://socket-chat-app-client.vercel.app/
+
 ## 개요 및 제작 목표
 
 - 개요: React와 Node.js를 사용하여 실시간 채팅 사이트를 개발. 주요 기능으로는 채팅방 생성, 실시간 채팅 등이 포함됨
